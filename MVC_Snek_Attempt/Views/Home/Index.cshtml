@@ -1,0 +1,79 @@
+﻿@model List<List<int>>
+@using MVC_Snek_Attempt.Data
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div id="grid" ></div>
+@*<div class="justify-content-around">
+    @for (int y = 0; y < GameValues.GridLength; y++)
+    {
+        <div class="gameRow">
+            @for (int x = 0; x < GameValues.GridLength; x++)
+            {
+                <div class="gameCol @(Model[y][x] == 1 ? "snek" : "grid")"></div>
+            }
+        </div>
+    }
+</div>
+@Html.RenderPartialAsync("_gridPartial");*@
+
+@section Scripts {
+    <script type="text/javascript">
+        const grid = document.getElementById('grid');
+        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
+        const gameInterval = setInterval((e)=>{
+            snekEndpoint();
+            //const newGrid = gridBehavior()
+            
+            //renderGrid(newGrid);
+        }, 200);
+        const snekEndpoint = async () => {
+            
+            const result = await fetch(snekUrl).then((res) => {
+                const json = res.json();
+                
+                return json;
+            }).then(json => renderGrid(json)).catch(err => console.log(err));
+            
+            return result;
+        }
+        const gridUrl = 'https://localhost:7053/api/snek/SnekEndpoint/';
+        const gridBehavior = async () => {
+
+            const gridEndpoint = () => {
+                const stuff = fetch(gridUrl).then((res)=>{
+                    return res.json();
+                }).then((json)=>{
+                    
+                    return JSON.stringify(json);
+                })
+                return stuff;
+            }
+        }
+        const renderGrid = async (newGrid) => {
+            grid.innerHTML = null;
+            
+            for(let y = 0; y < newGrid.length; y++){
+                const row = document.createElement('div');
+                
+                row.classList.add('gameRow');
+                for(let x = 0; x < newGrid.length; x++){
+                    const col = document.createElement('div');
+                    const add = newGrid[y][x] === 0 ? 'gameCol' : 'snek';
+                    col.classList.add(add);
+                    row.appendChild(col);
+                    
+                }
+                grid.appendChild(row);
+            }
+            
+        }
+        
+
+    </script>
+}

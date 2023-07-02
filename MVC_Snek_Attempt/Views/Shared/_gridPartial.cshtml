@@ -1,0 +1,17 @@
+﻿
+@model List<List<int>>
+
+@using MVC_Snek_Attempt.Data
+
+    <div class="justify-content-around">
+    @for (int y = 0; y < GameValues.GridLength; y++)
+    {
+        <div class="gameRow">
+            @for (int x = 0; x < GameValues.GridLength; x++)
+            {
+                <div class="gameCol @(Model[y][x] == 1 ? "snek" : "grid")"></div>
+            }
+        </div>
+    }
+</div>
+

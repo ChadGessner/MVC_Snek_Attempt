@@ -1,0 +1,52 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.justify-center {
+    display:flex;
+    justify-content: center;
+}
+
+.gameRow {
+    display: flex;
+    flex-flow: row;
+    height: 12px;
+}
+.gameCol {
+    display:flex;
+    flex-flow: column;
+    height: 12px;
+    width: 12px;
+    background-color: deeppink;
+    outline: 1px solid black;
+}
+.snek {
+    display: flex;
+    flex-flow: column;
+    height: 12px;
+    width: 12px;
+    outline: 1px solid black;
+    background-color: green;
+}
+.grid {
+    background-color: deeppink;
+}
