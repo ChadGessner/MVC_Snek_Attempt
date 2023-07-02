@@ -63,7 +63,7 @@ namespace MVC_Snek_Attempt.MisterService
                     grid[y].Add((_size * y) + (x + 1));
                 }
             }
-            Console.WriteLine(String.Join("", grid.Select(x => String.Join("", x))));
+
             return grid;
         }
     }

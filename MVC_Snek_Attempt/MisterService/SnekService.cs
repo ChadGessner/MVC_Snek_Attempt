@@ -8,7 +8,7 @@ namespace MVC_Snek_Attempt.MisterService
         private int snekLength { get; set; }
         private int snekStartPosition { get; set; }
         private int snekOffset { get; set; }
-        private directions currentDirection { get; set; }
+        private Directions currentDirection { get; set; }
         private ICachingService _cache { get; set; }
         public SnekService(ICachingService cache)
         {
@@ -17,7 +17,7 @@ namespace MVC_Snek_Attempt.MisterService
             snekOffset = 0;
             _cache = cache;
         }
-        public void SetDirection(directions direction)
+        public void SetDirection(Directions direction)
         {
             currentDirection = direction;
         }
@@ -32,20 +32,20 @@ namespace MVC_Snek_Attempt.MisterService
             
             return _cache.GetSnek();
         }
-        public void SnekDirection(List<int> snek, directions direction)
+        public void SnekDirection(List<int> snek, Directions direction)
         {
             switch(direction)
             {
-                case directions.up:
+                case Directions.up:
                     snek.Select(x => x + GameValues.GridLength);
                     break;
-                case directions.down:
+                case Directions.down:
                     snek.Select(x => x - GameValues.GridLength);
                     break;
-                case directions.left:
+                case Directions.left:
                     snek.Select(x => x - 1);
                     break;
-                case directions.right:
+                case Directions.right:
                     snek.Select(x => x + 1);
                     break;
                 default:
@@ -56,7 +56,7 @@ namespace MVC_Snek_Attempt.MisterService
         private List<int> SnekMotion()
         {
             List<int> snek = _cache.GetSnek();
-            directions currentDirection = _cache.GetDirection();
+            Directions currentDirection = _cache.GetDirection();
             if(snek.Count() != 0)
             {
 

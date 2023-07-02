@@ -25,12 +25,9 @@
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
-        const gameInterval = setInterval((e)=>{
-            snekEndpoint();
-            //const newGrid = gridBehavior()
-            
-            //renderGrid(newGrid);
+        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
+        const gameInterval = setInterval((e)=>{ // interval root method
+            snekEndpoint(); // hits both snek and grid endpoint
         }, 200);
         const snekEndpoint = async () => {
             
@@ -42,19 +39,19 @@
             
             return result;
         }
-        const gridUrl = 'https://localhost:7053/api/snek/SnekEndpoint/';
-        const gridBehavior = async () => {
+        //const gridUrl = 'https://localhost:7053/api/snek/SnekEndpoint/';
+        //const gridBehavior = async () => {
 
-            const gridEndpoint = () => {
-                const stuff = fetch(gridUrl).then((res)=>{
-                    return res.json();
-                }).then((json)=>{
+        //    const gridEndpoint = () => {
+        //        const stuff = fetch(gridUrl).then((res)=>{
+        //            return res.json();
+        //        }).then((json)=>{
                     
-                    return JSON.stringify(json);
-                })
-                return stuff;
-            }
-        }
+        //            return JSON.stringify(json);
+        //        })
+        //        return stuff;
+        //    }
+        //}
         const renderGrid = async (newGrid) => {
             grid.innerHTML = null;
             

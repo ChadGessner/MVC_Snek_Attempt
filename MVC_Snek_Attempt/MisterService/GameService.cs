@@ -3,11 +3,11 @@
     public class GameService : IGameService
     {
         private readonly IGridService _gridService;
-        private readonly ICachingService _cache;
-        public GameService(IGridService gridService, ICachingService cache)
+        private readonly ISnekService _snekService;
+        public GameService(IGridService gridService, ISnekService snekService)
         {
             _gridService = gridService;
-            _cache = cache;
+            _snekService = snekService;
         }
         public List<List<int>> GetGridFromService()
         {
