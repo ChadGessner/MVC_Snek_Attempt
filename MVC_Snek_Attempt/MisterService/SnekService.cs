@@ -17,24 +17,23 @@ namespace MVC_Snek_Attempt.MisterService
             snekOffset = 0;
             _cache = cache;
         }
+        public List<int> Triggered()
+        {
+            var snek = SnekMotion();
+            return snek;
+        }
         public void SetDirection(Directions direction)
         {
-            currentDirection = direction;
+            _cache.SetDirection(direction);
         }
-        private List<int> GetNewSnek()
+
+        public Directions GetCurrentDirection()
         {
-            int start = GameValues.Tengen - GameValues.SnekLength;
-            
-            List<int> newSnek = Enumerable
-                .Range(start, GameValues.SnekLength)
-                .ToList();
-            _cache.MutateSnek(newSnek);
-            
-            return _cache.GetSnek();
+            return _cache.GetDirection();
         }
         public void SnekDirection(List<int> snek, Directions direction)
         {
-            switch(direction)
+            switch (direction)
             {
                 case Directions.up:
                     snek.Select(x => x + GameValues.GridLength);
@@ -53,6 +52,19 @@ namespace MVC_Snek_Attempt.MisterService
             }
             _cache.MutateSnek(snek);
         }
+        private List<int> GetNewSnek()
+        {
+            int start = GameValues.Tengen - GameValues.SnekLength;
+            
+            List<int> newSnek = Enumerable
+                .Range(start, GameValues.SnekLength)
+                .ToList();
+            _cache.MutateSnek(newSnek);
+            
+            return _cache.GetSnek();
+        }
+        
+        
         private List<int> SnekMotion()
         {
             List<int> snek = _cache.GetSnek();
@@ -68,10 +80,6 @@ namespace MVC_Snek_Attempt.MisterService
             }
             return _cache.GetSnek();
         }
-        public List<int> Triggered()
-        {
-           var snek = SnekMotion();
-            return snek;
-        }
+        
     }
 }

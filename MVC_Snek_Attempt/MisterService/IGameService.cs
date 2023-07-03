@@ -2,6 +2,9 @@
 {
     public interface IGameService
     {
-        List<List<int>> GetGridFromService();
+        List<List<int>> UpdateAndGetGrid();
+        
+        void SetSnekDirectionOnKeyPress(int keyPress);
+        
     }
 }

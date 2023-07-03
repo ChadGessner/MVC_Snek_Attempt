@@ -34,9 +34,9 @@ namespace MVC_Snek_Attempt.Controllers
         }
         public IActionResult Index()
         {
-            var grid =  _service.GetGridFromService();
             
-            return View(grid);
+            
+            return View();
         }
 
         public IActionResult Privacy()

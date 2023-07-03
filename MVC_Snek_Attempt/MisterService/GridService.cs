@@ -10,13 +10,12 @@ namespace MVC_Snek_Attempt.MisterService
         {
             get;
             set;
-            
         }
         private readonly ICachingService _cache;
         public GridService(ICachingService cache)
         {
             _cache = cache;
-            _grid = GenerateGrid();
+            _grid = GameValues.DefaultGridValues;
             Console.WriteLine("The grid service has been initialized");
         }
         
