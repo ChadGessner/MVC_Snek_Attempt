@@ -54,7 +54,7 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public void SetDirection(Directions direction)
         {
-            _cache.Set<Directions>("currentDirection", direction, TimeSpan.FromSeconds(9001));
+            _cache.Set<Directions>("currentDirection", direction, TimeSpan.FromSeconds(3));
         }
         public Directions GetDirection()
         {
