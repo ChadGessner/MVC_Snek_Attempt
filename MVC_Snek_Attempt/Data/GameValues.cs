@@ -19,10 +19,10 @@
                     87 , 0
                 },
                 {
-                    83, 2
+                    83, 1
                 },
                 {
-                    65, 3
+                    65, 2
                 },
                 {
                     68, 3
@@ -32,17 +32,23 @@
         }
         private static List<List<int>> GenerateGrid()
         {
-            List<List<int>> grid = new List<List<int>>();
-            for (int y = 0; y < GridLength; y++)
-            {
-                grid.Add(new List<int>());
-                for (int x = 0; x < GridLength; x++)
-                {
-                    grid[y].Add((GridLength * y) + (x + 1));
-                }
-            }
+            
+            //List<List<int>> grid = new List<List<int>>();
+            //for (int y = 0; y < GridLength; y++)
+            //{
+            //    grid.Add(new List<int>());
+            //    for (int x = 0; x < GridLength; x++)
+            //    {
+            //        grid[y].Add((GridLength * y) + (x + 1));
+            //    }
+            //}
 
-            return grid;
+            return Enumerable.Range(0, GridLength)
+                .Select(y => Enumerable
+                .Range(0, GridLength)
+                .Select(x => GridLength * y + (x + 1))
+                .ToList())
+                .ToList(); 
         }
     }
 }

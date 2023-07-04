@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using System.Net;
+using MVC_Snek_Attempt.Models;
 
 namespace MVC_Snek_Attempt.ServiceEndpoints
 {
@@ -34,11 +35,16 @@ namespace MVC_Snek_Attempt.ServiceEndpoints
         }
 
         [HttpPost(nameof(DirectionEndpoint))]
-        public HttpStatusCode DirectionEndpoint([FromBody] object keyCode)
+        public Dictionary<string, int> DirectionEndpoint([FromBody] object keyCode)
         {
+            var json = JsonSerializer.Serialize(keyCode);
+
+            Dictionary<string, int> directionData = JsonSerializer
+                .Deserialize<Dictionary<string, int>>(json);
             
-            
-            return (HttpStatusCode.OK);
+            _game.SetSnekDirectionOnKeyPress(directionData["keyCode"]);
+
+            return directionData;
         }
     }
 }
