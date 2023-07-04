@@ -1,6 +1,6 @@
 ﻿namespace MVC_Snek_Attempt.Data
 {
-    public enum directions
+    public enum Directions
     {
         up,
         down,

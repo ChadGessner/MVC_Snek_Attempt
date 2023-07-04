@@ -8,7 +8,8 @@ namespace MVC_Snek_Attempt.MisterService
         List<int> MutateSnek(List<int> snek);
         List<List<int>> MutateGrid(List<List<int>> grid);
         List<List<int>> GetGrid();
-        directions GetDirection();
+        void SetDirection(Directions direction);
+        Directions GetDirection();
 
     }
 }

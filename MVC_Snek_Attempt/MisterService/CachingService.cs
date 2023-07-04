@@ -52,13 +52,13 @@ namespace MVC_Snek_Attempt.MisterService
             _cache.Set<List<List<int>>>("grid", grid, TimeSpan.FromSeconds(3));
             return grid;
         }
-        public void SetDirection(directions direction)
+        public void SetDirection(Directions direction)
         {
-            _cache.Set<directions>("currentDirection", direction, TimeSpan.FromSeconds(9001));
+            _cache.Set<Directions>("currentDirection", direction, TimeSpan.FromSeconds(9001));
         }
-        public directions GetDirection()
+        public Directions GetDirection()
         {
-            return _cache.Get<directions>("currentDirection");
+            return _cache.Get<Directions>("currentDirection");
         }
     }
 }
