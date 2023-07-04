@@ -25,29 +25,32 @@
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
-        const directionUrl = 'https://localhost:44309/api/snek/DirectionEndpoint';
+        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
+        const directionUrl = 'https://localhost:7053/api/snek/DirectionEndpoint';
 
+        const onKeyPress = (e) => {
+            const keyCode = e.keyCode;
+            let data;
+            fetch(directionUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+
+                    keyCode: keyCode
+                })
+
+            }).then((response) => {
+                
+                return response.json();
+            }).then(json => data = json).catch(err => console.log(err))
+            return data;
+        }
         document.addEventListener(
             'keydown', (e)=>{
-
-            const keyCode = e.keyCode;
+                onKeyPress(e);
             
-                fetch(directionUrl,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        
-                        keyCode : keyCode
-                    })
-            
-            }).then((response)=> {
-                console.log(response)
-                return JSON.stringify(response);
-            })
-            .catch(err => console.log(err))
             });
 
         const gameInterval = setInterval((e)=>{ // interval root method
@@ -88,7 +91,6 @@
                     const add = newGrid[y][x] === 0 ? 'gameCol' : 'snek';
                     col.classList.add(add);
                     row.appendChild(col);
-                    
                 }
                 grid.appendChild(row);
             }

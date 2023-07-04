@@ -69,10 +69,12 @@ namespace MVC_Snek_Attempt.MisterService
         {
             List<int> snek = _cache.GetSnek();
             Directions currentDirection = _cache.GetDirection();
-            if(snek.Count() != 0)
+            
+            if (snek.Count() != 0)
             {
 
                 SnekDirection(snek, currentDirection);
+                
             }
             else
             {
