@@ -46,5 +46,18 @@ namespace MVC_Snek_Attempt.ServiceEndpoints
 
             return directionData;
         }
+
+        [HttpGet(nameof(ScoreEndpoint))]
+        public Dictionary<string, int> ScoreEndpoint()
+        {
+            int val = _game.GetScore();
+            return new Dictionary<string, int>
+            {
+                {
+                    "score",
+                    val
+                }
+            };
+        }
     }
 }
