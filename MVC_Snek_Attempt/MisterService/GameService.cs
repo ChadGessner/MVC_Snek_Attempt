@@ -21,7 +21,7 @@ namespace MVC_Snek_Attempt.MisterService
         
         public void SetSnekDirectionOnKeyPress(int keyPress)
         {
-            Console.WriteLine(ValidateKeyPressForDirection(keyPress));
+            
             if (ValidateKeyPressForDirection(keyPress))
             {
                 Directions updatedDirection = (Directions)GameValues.keyKeyValuePairs[keyPress];
@@ -57,6 +57,11 @@ namespace MVC_Snek_Attempt.MisterService
                     return false;
 
             };
+        }
+        public int GetScore()
+        {
+
+            return _gridService.GetGameScore();
         }
     }
 }

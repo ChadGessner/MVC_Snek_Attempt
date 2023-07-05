@@ -5,6 +5,7 @@
         List<List<int>> UpdateAndGetGrid();
         
         void SetSnekDirectionOnKeyPress(int keyPress);
+        int GetScore();
         
     }
 }

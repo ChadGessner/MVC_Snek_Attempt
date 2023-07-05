@@ -9,11 +9,15 @@
         public const int GridValue = 0;
         public const int SnekValue = 1;
         public const int AppleValue = 2;
+        public const int WallValue = 3;
         public static readonly IDictionary<int, int> keyKeyValuePairs;
         public static readonly List<List<int>> DefaultGridValues;
+        public static readonly IDictionary<Directions, int> DefaultDirections;
+        public static readonly List<int> BorderValues;
         static GameValues()
         {
-        keyKeyValuePairs = new Dictionary<int, int>()
+            BorderValues = GetBorderValues();
+            keyKeyValuePairs = new Dictionary<int, int>()
             {
                 {
                     87 , 0
@@ -29,6 +33,23 @@
                 }
             };
             DefaultGridValues = GenerateGrid();
+            DefaultDirections = new Dictionary<Directions, int>()
+            {
+                { 
+                    (Directions)0,
+                    -GridLength 
+                },{
+                    (Directions)1,
+                     GridLength
+                },{
+                    (Directions)2,
+                    -1
+                },{
+                    (Directions)3,
+                     1
+                },
+
+            };
         }
         private static List<List<int>> GenerateGrid()
         {
@@ -50,5 +71,14 @@
                 .ToList())
                 .ToList(); 
         }
+        private static List<int> GetBorderValues()
+        {
+            //q <= GridLength || q % GridLength == 0 || q % (GridLength + 1) == 0 || 
+            return Enumerable.Range(0, GridMaxValue)
+                .Where(
+                q => q % GridLength == 0 || (q > (GridMaxValue - GridLength) && q < GridMaxValue ))
+                .ToList();
+        }
     }
+    
 }

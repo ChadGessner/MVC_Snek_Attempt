@@ -3,5 +3,6 @@
     public interface IGridService
     {
         List<List<int>> GetGrid();
+        int GetGameScore();
     }
 }

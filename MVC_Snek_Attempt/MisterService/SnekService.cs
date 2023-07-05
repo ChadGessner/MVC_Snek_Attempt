@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using MVC_Snek_Attempt.Data;
+using System.Reflection;
 
 namespace MVC_Snek_Attempt.MisterService
 {
@@ -31,37 +32,20 @@ namespace MVC_Snek_Attempt.MisterService
         {
             return _cache.GetDirection();
         }
-        public void SnekDirection(List<int> snek, Directions direction)
+        public List<int> SnekDirection(List<int> snek, Directions direction)
         {
-            switch (direction)
-            {
-                case Directions.up:
-                    snek.Select(x => x + GameValues.GridLength);
-                    break;
-                case Directions.down:
-                    snek.Select(x => x - GameValues.GridLength);
-                    break;
-                case Directions.left:
-                    snek.Select(x => x - 1);
-                    break;
-                case Directions.right:
-                    snek.Select(x => x + 1);
-                    break;
-                default:
-                    break;
-            }
-            _cache.MutateSnek(snek);
+            Console.WriteLine($"The snek: {String.Join("", snek)} || The Direction: {direction} ...");
+            return _cache.MutateSnek(Move(snek, direction));
+
         }
         private List<int> GetNewSnek()
         {
             int start = GameValues.Tengen - GameValues.SnekLength;
-            
+            List<int> oldSnek = _cache.GetSnek();
             List<int> newSnek = Enumerable
                 .Range(start, GameValues.SnekLength)
                 .ToList();
-            _cache.MutateSnek(newSnek);
-            
-            return _cache.GetSnek();
+            return oldSnek.Count == 0 ? _cache.MutateSnek(newSnek) : oldSnek; 
         }
         
         
@@ -72,15 +56,30 @@ namespace MVC_Snek_Attempt.MisterService
             
             if (snek.Count() != 0)
             {
-
+                
                 SnekDirection(snek, currentDirection);
                 
             }
             else
             {
+                
                 _cache.MutateSnek(GetNewSnek());
             }
             return _cache.GetSnek();
+        }
+
+        private List<int> Move(List<int> snek, Directions currentDirection)
+        {
+            int headIndex = snek.Count() - 1;
+            int headValue = snek[headIndex] += GameValues.DefaultDirections[currentDirection];
+            IEnumerable<int> head = new List<int>() { headValue };
+            if(GameValues.SnekLength + _cache.GetGameScore() == snek.Count())
+            {
+                return snek.Concat(head).ToList();
+            }
+
+            return snek.Skip(1).Concat(head).ToList();
+
         }
         
     }
