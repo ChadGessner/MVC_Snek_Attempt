@@ -18,18 +18,36 @@ namespace MVC_Snek_Attempt.MisterService
             _grid = GameValues.DefaultGridValues;
             Console.WriteLine("The grid service has been initialized");
         }
-        
+        public int GetGameScore()
+        {
+            return _cache.GetGameScore();
+        }
+        //public int GetIndexOfSnekHead(List<int> snek)
+        //{
+        //    int head = snek[snek.Count - 1];
+
+
+        //}
         public List<List<int>> GetGrid() 
         {
             
             List<List<int>> newGrid = new List<List<int>>();
-            IEnumerable<int> snek = GetSnekValues();
-            if(snek == null || snek.Count() == 0)
+            List<int> snek = GetSnekValues();
+            int snekHead = snek[snek.Count - 1];
+            if (GameValues.BorderValues.Contains(snekHead))
+            {
+                Console.WriteLine("Game Over");
+                return new List<List<int>>();
+            }
+            int apple = GenerateApple(snek);
+            
+            if (snek == null || snek.Count() == 0)
             {
                 return _grid;
             }
             for (int y = 0; y < _size; y++)
             {
+                int appleIndexQuery = _grid[y].IndexOf(apple);
                 newGrid.Add(new List<int>());
                 for(int x = 0; x < _size; x++)
                 {
@@ -38,6 +56,16 @@ namespace MVC_Snek_Attempt.MisterService
                         newGrid[y].Add(GameValues.SnekValue);
                         continue;
                     }
+                    if(_grid.Count() != 0 && appleIndexQuery == x)
+                    {
+                        newGrid[y].Add(GameValues.AppleValue);
+                        continue;
+                    }
+                    if (GameValues.BorderValues.Contains(_grid[y][x]))
+                    {
+                        newGrid[y].Add(GameValues.WallValue);
+                    }
+                    
                     newGrid[y].Add(GameValues.GridValue);
                 }
             }
@@ -51,19 +79,27 @@ namespace MVC_Snek_Attempt.MisterService
             
             return snek;
         }
-        private List<List<int>> GenerateGrid()
+        private int GenerateApple(List<int> snek)
         {
-            List<List<int>> grid = new List<List<int>>();
-            for (int y = 0; y < _size; y++)
+            int apple = _cache.GetApple();
+            if (snek.Contains(apple) || apple == -1)
             {
-                grid.Add(new List<int>());
-                for (int x = 0; x < _size; x++)
+                _cache.SetGameScore();
+                while (true)
                 {
-                    grid[y].Add((_size * y) + (x + 1));
-                }
-            }
 
-            return grid;
+                    int randInt = new Random().Next(0, GameValues.GridMaxValue);
+                    if (snek.Contains(randInt) || GameValues.BorderValues.Contains(randInt))
+                    {
+                        continue;
+                    }
+                    _cache.SetApple(randInt);
+
+                    return randInt;
+                }
+                
+            }
+            return apple;
         }
     }
 }

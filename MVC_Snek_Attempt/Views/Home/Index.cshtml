@@ -7,27 +7,17 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h4 id="score"></h4>
 </div>
 <div id="grid" ></div>
-@*<div class="justify-content-around">
-    @for (int y = 0; y < GameValues.GridLength; y++)
-    {
-        <div class="gameRow">
-            @for (int x = 0; x < GameValues.GridLength; x++)
-            {
-                <div class="gameCol @(Model[y][x] == 1 ? "snek" : "grid")"></div>
-            }
-        </div>
-    }
-</div>
-@Html.RenderPartialAsync("_gridPartial");*@
 
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
-        const directionUrl = 'https://localhost:7053/api/snek/DirectionEndpoint';
-
+        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
+        const directionUrl = 'https://localhost:44309/api/snek/DirectionEndpoint';
+        const scoreUrl = 'https://localhost:44309/api/snek/ScoreEndpoint';
+        const score = document.getElementById('score');
         const onKeyPress = (e) => {
             const keyCode = e.keyCode;
             let data;
@@ -54,8 +44,9 @@
             });
 
         const gameInterval = setInterval((e)=>{ // interval root method
+            getScore();
             snekEndpoint(); // hits both snek and grid endpoint
-        }, 2000);
+        }, 100);
         const snekEndpoint = async () => {
             
             const result = await fetch(snekUrl).then((res) => {
@@ -66,19 +57,8 @@
             
             return result;
         }
-        //const gridUrl = 'https://localhost:7053/api/snek/SnekEndpoint/';
-        //const gridBehavior = async () => {
+        
 
-        //    const gridEndpoint = () => {
-        //        const stuff = fetch(gridUrl).then((res)=>{
-        //            return res.json();
-        //        }).then((json)=>{
-                    
-        //            return JSON.stringify(json);
-        //        })
-        //        return stuff;
-        //    }
-        //}
         const renderGrid = async (newGrid) => {
             grid.innerHTML = null;
             
@@ -88,15 +68,38 @@
                 row.classList.add('gameRow');
                 for(let x = 0; x < newGrid.length; x++){
                     const col = document.createElement('div');
-                    const add = newGrid[y][x] === 0 ? 'gameCol' : 'snek';
+                    let add = '';
+                    if(newGrid[y][x] === 0) {
+                        add = 'gameCol';
+                        
+                    }else if(newGrid[y][x] == 1){
+                        add = 'snek';
+                        
+                    }else if(newGrid[y][x] == 3){
+                        add = 'wall'
+                        
+                    }else{
+                        add = 'apple'
+                        
+                    }
+                    
                     col.classList.add(add);
                     row.appendChild(col);
                 }
                 grid.appendChild(row);
             }
+        }
+        const getScore = () => {
+            return fetch(scoreUrl)
+            .then(response => response.json())
+            .then((json) => {
+                
+                score.innerHTML = json[
+                    "score"
+                ]
+                return json;
+            })
             
         }
-        
-
     </script>
 }
