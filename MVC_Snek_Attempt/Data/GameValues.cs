@@ -5,7 +5,7 @@
         public const int SnekLength = 4;
         public const int GridLength = 40;
         public const int GridMaxValue = GridLength * GridLength;
-        public const int Tengen = GridLength / 2 * GridLength;
+        public const int Tengen = ((GridLength / 2) * GridLength) - (GridLength / 2);
         public const int GridValue = 0;
         public const int SnekValue = 1;
         public const int AppleValue = 2;
@@ -16,7 +16,7 @@
         public static readonly List<int> BorderValues;
         static GameValues()
         {
-            BorderValues = GetBorderValues();
+            DefaultGridValues = GenerateGrid();
             keyKeyValuePairs = new Dictionary<int, int>()
             {
                 {
@@ -32,7 +32,7 @@
                     68, 3
                 }
             };
-            DefaultGridValues = GenerateGrid();
+            
             DefaultDirections = new Dictionary<Directions, int>()
             {
                 { 
@@ -50,6 +50,7 @@
                 },
 
             };
+            BorderValues = GetBorderValues();
         }
         private static List<List<int>> GenerateGrid()
         {
@@ -73,11 +74,22 @@
         }
         private static List<int> GetBorderValues()
         {
-            //q <= GridLength || q % GridLength == 0 || q % (GridLength + 1) == 0 || 
-            return Enumerable.Range(0, GridMaxValue)
-                .Where(
-                q => q % GridLength == 0 || (q > (GridMaxValue - GridLength) && q < GridMaxValue ))
+            var topWall = DefaultGridValues.First();
+            var bottomWall = DefaultGridValues.Last();
+            var leftWall = Enumerable.Range(0, GridLength).Select(y => DefaultGridValues[y].First());
+            var rightWall = Enumerable.Range(0, GridLength).Select(y => DefaultGridValues[y].Last());
+            return topWall
+                .Concat(bottomWall)
+                .Concat(leftWall)
+                .Concat(rightWall)
                 .ToList();
+            //q <= GridLength || q % GridLength == 0 || q % (GridLength + 1) == 0 || 
+            //return Enumerable.Range(0, GridMaxValue)
+            //    .Where(
+            //    q => q % GridLength == 0 || 
+            //    (q > (GridMaxValue - GridLength) && q < GridMaxValue ) || 
+            //    q < GridLength || q % (GridLength + 1 ) == 0)
+            //    .ToList();
         }
     }
     

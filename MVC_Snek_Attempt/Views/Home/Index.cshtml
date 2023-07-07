@@ -14,9 +14,9 @@
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
-        const directionUrl = 'https://localhost:44309/api/snek/DirectionEndpoint';
-        const scoreUrl = 'https://localhost:44309/api/snek/ScoreEndpoint';
+        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
+        const directionUrl = 'https://localhost:7053/api/snek/DirectionEndpoint';
+        const scoreUrl = 'https://localhost:7053/api/snek/ScoreEndpoint';
         const score = document.getElementById('score');
         const onKeyPress = (e) => {
             const keyCode = e.keyCode;
@@ -46,7 +46,7 @@
         const gameInterval = setInterval((e)=>{ // interval root method
             getScore();
             snekEndpoint(); // hits both snek and grid endpoint
-        }, 100);
+        }, 200);
         const snekEndpoint = async () => {
             
             const result = await fetch(snekUrl).then((res) => {
