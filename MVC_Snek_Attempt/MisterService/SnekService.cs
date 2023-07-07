@@ -35,7 +35,13 @@ namespace MVC_Snek_Attempt.MisterService
         public List<int> SnekDirection(List<int> snek, Directions direction)
         {
             Console.WriteLine($"The snek: {String.Join("", snek)} || The Direction: {direction} ...");
-            return _cache.MutateSnek(Move(snek, direction));
+            List<int> movedSnek = Move(snek, direction);
+            if (snek[snek.Count - 1] == movedSnek[movedSnek.Count - 1])
+            {
+                Console.WriteLine("previous snek: " + snek[snek.Count - 1] + "current snek: " + movedSnek[movedSnek.Count - 1]);
+                return _cache.MutateSnek(snek);
+            }
+            return _cache.MutateSnek(movedSnek);
 
         }
         private List<int> GetNewSnek()
@@ -72,6 +78,10 @@ namespace MVC_Snek_Attempt.MisterService
         {
             int headIndex = snek.Count() - 1;
             int headValue = snek[headIndex] += GameValues.DefaultDirections[currentDirection];
+            if (GameValues.BorderValues.Contains(headValue)|| snek.Contains(headValue))
+            {
+                return snek;
+            }
             IEnumerable<int> head = new List<int>() { headValue };
             if(GameValues.SnekLength + _cache.GetGameScore() == snek.Count())
             {

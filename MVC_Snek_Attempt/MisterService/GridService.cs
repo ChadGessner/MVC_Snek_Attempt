@@ -64,6 +64,7 @@ namespace MVC_Snek_Attempt.MisterService
                     if (GameValues.BorderValues.Contains(_grid[y][x]))
                     {
                         newGrid[y].Add(GameValues.WallValue);
+                        continue;
                     }
                     
                     newGrid[y].Add(GameValues.GridValue);
