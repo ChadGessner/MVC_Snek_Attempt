@@ -14,9 +14,9 @@
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:7053/api/snek/SnekEndpoint';
-        const directionUrl = 'https://localhost:7053/api/snek/DirectionEndpoint';
-        const scoreUrl = 'https://localhost:7053/api/snek/ScoreEndpoint';
+        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
+        const directionUrl = 'https://localhost:44309/api/snek/DirectionEndpoint';
+        const scoreUrl = 'https://localhost:44309/api/snek/ScoreEndpoint';
         const score = document.getElementById('score');
         const onKeyPress = (e) => {
             const keyCode = e.keyCode;
@@ -57,7 +57,6 @@
             
             return result;
         }
-        
 
         const renderGrid = async (newGrid) => {
             grid.innerHTML = null;
