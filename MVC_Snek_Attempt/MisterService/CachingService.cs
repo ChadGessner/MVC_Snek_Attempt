@@ -33,10 +33,10 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public List<int> MutateSnek(List<int> snek)
         {
-            if (IsGameOver(snek))
-            {
-                return new List<int> { 0 };
-            }
+            //if (IsGameOver(snek))
+            //{
+            //    return new List<int> { 0 };
+            //}
             _cache.Set<List<int>>(GameValues.snek, snek, TimeSpan.FromSeconds(3));
             
             return snek;
