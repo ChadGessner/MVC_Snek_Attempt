@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using MVC_Snek_Attempt.Data;
+using System.Reflection;
 
 namespace MVC_Snek_Attempt.MisterService
 {
@@ -11,10 +12,32 @@ namespace MVC_Snek_Attempt.MisterService
             _cache = cache;
             
         }
+        private void Dispose()
+        {
+            _cache.Dispose();
+        }
+        private bool IsGameOver(List<int> snek)
+        {
+            List<int> currentSnek = GetSnek();
+            bool game = true;
+            bool over = false;
+            for(int i = 0; i < snek.Count; i++)
+            {
+                over = currentSnek[i] == snek[i];
+                if(game != over)
+                {
+                    return game;
+                }
+            }
+            return game != over;
+        }
         public List<int> MutateSnek(List<int> snek)
         {
-            
-            _cache.Set<List<int>>("snek", snek, TimeSpan.FromSeconds(3));
+            if (IsGameOver(snek))
+            {
+                return new List<int> { 0 };
+            }
+            _cache.Set<List<int>>(GameValues.snek, snek, TimeSpan.FromSeconds(3));
             
             return snek;
         }
@@ -22,7 +45,7 @@ namespace MVC_Snek_Attempt.MisterService
         {
             
             List<int> snek;
-            if(_cache.TryGetValue("snek", out snek))
+            if(_cache.TryGetValue(GameValues.snek, out snek))
             {
                 return snek;
             }
@@ -32,7 +55,7 @@ namespace MVC_Snek_Attempt.MisterService
         {
             try
             {
-                List<List<int>> grid = _cache.Get<List<List<int>>>("grid")!;
+                List<List<int>> grid = _cache.Get<List<List<int>>>(GameValues.grid)!;
                 
                 if (grid != null)
                 {
@@ -47,7 +70,7 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public List<List<int>> MutateGrid(List<List<int>> grid)
         {
-            _cache.Set<List<List<int>>>("grid", grid, TimeSpan.FromSeconds(3));
+            _cache.Set<List<List<int>>>(GameValues.grid, grid, TimeSpan.FromSeconds(3));
             return grid;
         }
 
@@ -55,8 +78,8 @@ namespace MVC_Snek_Attempt.MisterService
         {
 
             _cache.Set<Directions>(
-                "currentDirection", direction, TimeSpan.FromSeconds(5));
-            return _cache.Get<Directions>("currentDirection");
+                GameValues.currentDirection, direction, TimeSpan.FromSeconds(5));
+            return _cache.Get<Directions>(GameValues.currentDirection);
 
         }
 
@@ -65,7 +88,7 @@ namespace MVC_Snek_Attempt.MisterService
             Directions currentDirection;
             
             if(_cache.TryGetValue<Directions>(
-                "currentDirection", out currentDirection))
+                GameValues.currentDirection, out currentDirection))
             {
                 return SetDirection(currentDirection);
             }
@@ -74,7 +97,7 @@ namespace MVC_Snek_Attempt.MisterService
         public int GetApple()
         {
             int apple;
-            if(_cache.TryGetValue("apple", out apple))
+            if(_cache.TryGetValue(GameValues.apple, out apple))
             {
                 return SetApple(apple);
                 
@@ -83,18 +106,18 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public int SetApple(int apple)
         {
-            _cache.Set<int>("apple", apple, TimeSpan.FromSeconds(5));
+            _cache.Set<int>(GameValues.apple, apple, TimeSpan.FromSeconds(5));
             
-            return _cache.Get<int>("apple");
+            return _cache.Get<int>(GameValues.apple);
         }
         public int SetGameScore()
         {
             int score = 0;
-            if(_cache.TryGetValue("score", out score))
+            if(_cache.TryGetValue(GameValues.score, out score))
             {
                 score++;
             }
-            _cache.Set<int>("score", score, TimeSpan.FromMinutes(5));
+            _cache.Set<int>(GameValues.score, score, TimeSpan.FromMinutes(5));
             return score;
 
         }
@@ -102,7 +125,7 @@ namespace MVC_Snek_Attempt.MisterService
         {
 
             int score = 0;
-            if (_cache.TryGetValue("score", out score))
+            if (_cache.TryGetValue(GameValues.score, out score))
             {
                 return score;
             }

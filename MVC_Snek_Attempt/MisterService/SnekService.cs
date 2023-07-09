@@ -78,7 +78,7 @@ namespace MVC_Snek_Attempt.MisterService
         {
             int headIndex = snek.Count() - 1;
             int headValue = snek[headIndex] += GameValues.DefaultDirections[currentDirection];
-            if (GameValues.BorderValues.Contains(headValue)|| snek.Contains(headValue))
+            if (GameValues.BorderValues.Contains(headValue) || snek.Contains(headValue))
             {
                 return snek;
             }
