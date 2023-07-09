@@ -6,6 +6,9 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    <div id="snekEndpoint" class="visually-hidden">@ViewBag.Snek</div>
+    <div id="directionEndpoint" class="visually-hidden">@ViewBag.Direction</div>
+    <div id="scoreEndpoint" class="visually-hidden">@ViewBag.Score</div>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <h4 id="score"></h4>
 </div>
@@ -14,9 +17,14 @@
 @section Scripts {
     <script type="text/javascript">
         const grid = document.getElementById('grid');
-        const snekUrl = 'https://localhost:44309/api/snek/SnekEndpoint';
-        const directionUrl = 'https://localhost:44309/api/snek/DirectionEndpoint';
-        const scoreUrl = 'https://localhost:44309/api/snek/ScoreEndpoint';
+        const baseUrl = window.location.origin;
+        const snekEndpointRouteData = document.getElementById('snekEndpoint').innerHTML;
+        const directionEndpointRouteData = document.getElementById('directionEndpoint').innerHTML;
+        const scoreEndpointRouteData = document.getElementById('scoreEndpoint').innerHTML;
+
+        const snekUrl = baseUrl + '/api/Snek/' + snekEndpointRouteData + '/';
+        const directionUrl = baseUrl + '/api/Snek/' + directionEndpointRouteData + '/';
+        const scoreUrl = baseUrl + '/api/Snek/' + scoreEndpointRouteData + '/';
         const score = document.getElementById('score');
         const onKeyPress = (e) => {
             const keyCode = e.keyCode;
@@ -44,6 +52,9 @@
             });
 
         const gameInterval = setInterval((e)=>{ // interval root method
+            console.log(snekUrl)
+            console.log(directionUrl)
+            console.log(scoreUrl)
             getScore();
             snekEndpoint(); // hits both snek and grid endpoint
         }, 200);
