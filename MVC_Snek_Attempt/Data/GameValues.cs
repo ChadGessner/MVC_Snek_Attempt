@@ -2,6 +2,14 @@
 {
     public static class GameValues
     {
+        //strings
+        public const string currentDirection = "currentDirection";
+        public const string apple = "apple";
+        public const string score = "score";
+        public const string grid = "grid";
+        public const string snek = "snek";
+
+        // integers
         public const int SnekLength = 4;
         public const int GridLength = 40;
         public const int GridMaxValue = GridLength * GridLength;
@@ -10,6 +18,8 @@
         public const int SnekValue = 1;
         public const int AppleValue = 2;
         public const int WallValue = 3;
+
+        //collections
         public static readonly IDictionary<int, int> keyKeyValuePairs;
         public static readonly List<List<int>> DefaultGridValues;
         public static readonly IDictionary<Directions, int> DefaultDirections;
@@ -55,16 +65,6 @@
         private static List<List<int>> GenerateGrid()
         {
             
-            //List<List<int>> grid = new List<List<int>>();
-            //for (int y = 0; y < GridLength; y++)
-            //{
-            //    grid.Add(new List<int>());
-            //    for (int x = 0; x < GridLength; x++)
-            //    {
-            //        grid[y].Add((GridLength * y) + (x + 1));
-            //    }
-            //}
-
             return Enumerable.Range(0, GridLength)
                 .Select(y => Enumerable
                 .Range(0, GridLength)
@@ -75,22 +75,23 @@
         private static List<int> GetBorderValues()
         {
             var topWall = DefaultGridValues.First();
+
             var bottomWall = DefaultGridValues.Last();
-            var leftWall = Enumerable.Range(0, GridLength).Select(y => DefaultGridValues[y].First());
-            var rightWall = Enumerable.Range(0, GridLength).Select(y => DefaultGridValues[y].Last());
+
+            var leftWall = Enumerable
+                .Range(0, GridLength)
+                .Select(y => DefaultGridValues[y].First());
+
+            var rightWall = Enumerable
+                .Range(0, GridLength)
+                .Select(y => DefaultGridValues[y].Last());
+
             return topWall
                 .Concat(bottomWall)
                 .Concat(leftWall)
                 .Concat(rightWall)
                 .ToList();
-            //q <= GridLength || q % GridLength == 0 || q % (GridLength + 1) == 0 || 
-            //return Enumerable.Range(0, GridMaxValue)
-            //    .Where(
-            //    q => q % GridLength == 0 || 
-            //    (q > (GridMaxValue - GridLength) && q < GridMaxValue ) || 
-            //    q < GridLength || q % (GridLength + 1 ) == 0)
-            //    .ToList();
+
         }
     }
-    
 }
