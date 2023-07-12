@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using MVC_Snek_Attempt.Data;
 using System.Reflection;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MVC_Snek_Attempt.MisterService
 {
@@ -14,29 +15,47 @@ namespace MVC_Snek_Attempt.MisterService
         }
         private void Dispose()
         {
-            _cache.Dispose();
+
+            foreach (var value in GameValues.CacheKeys)
+            {
+                _cache.Remove(value);
+            }
         }
         private bool IsGameOver(List<int> snek)
         {
+
             List<int> currentSnek = GetSnek();
             bool game = true;
             bool over = false;
-            for(int i = 0; i < snek.Count; i++)
+            
+            if (snek.Count > 0 && currentSnek.Count > 0)
             {
-                over = currentSnek[i] == snek[i];
-                if(game != over)
+                if(snek.Count == currentSnek.Count)
                 {
-                    return game;
+                    for (int i = 0; i < snek.Count; i++)
+                    {
+                        over = currentSnek[i] != snek[i];
+                        if (game == over)
+                        {
+                            break;
+                        }
+                    }
                 }
+                return game != over;
             }
+
             return game != over;
+        }
+
+        public void ResetCache()
+        {
+            Dispose();
+            
         }
         public List<int> MutateSnek(List<int> snek)
         {
-            //if (IsGameOver(snek))
-            //{
-            //    return new List<int> { 0 };
-            //}
+            SetGameStatus(IsGameOver(snek)); //true
+            Console.WriteLine("What the fuck is going on " + IsGameOver(snek)) ;
             _cache.Set<List<int>>(GameValues.snek, snek, TimeSpan.FromSeconds(3));
             
             return snek;
@@ -70,7 +89,8 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public List<List<int>> MutateGrid(List<List<int>> grid)
         {
-            _cache.Set<List<List<int>>>(GameValues.grid, grid, TimeSpan.FromSeconds(3));
+            _cache.Set<List<List<int>>>(
+                GameValues.grid, grid, TimeSpan.FromSeconds(3));
             return grid;
         }
 
@@ -130,6 +150,22 @@ namespace MVC_Snek_Attempt.MisterService
                 return score;
             }
             return score;
+        }
+        public bool GetGameStatus()
+        {
+            bool status;
+            if (_cache.TryGetValue(GameValues.status, out status))
+            {
+                return status;
+            }
+            status = true;
+            return status;
+        }
+
+        public bool SetGameStatus(bool gameStatus)
+        {
+            _cache.Set<bool>("GameStatus", gameStatus);
+            return _cache.Get<bool>("GameStatus");
         }
     }
     

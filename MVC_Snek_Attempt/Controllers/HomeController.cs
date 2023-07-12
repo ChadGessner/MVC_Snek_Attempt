@@ -27,27 +27,27 @@ namespace MVC_Snek_Attempt.Controllers
             _configuration = configuration;
         }
         
-        public async Task<IActionResult> _gridPartial([FromBody] JsonContent grid)
+        public async Task<IActionResult> _gridPartial(bool isGameOver = false)
         {
-            
-
-            using (var stream = grid.ReadAsStreamAsync())
-            {
-                var gridList = JsonSerializer.Deserialize<List<List<int>>>(await stream);
-                return View(gridList);
-            }
+            await Console.Out.WriteLineAsync(isGameOver.ToString());
+            return PartialView(nameof(_gridPartial), isGameOver);
         }
         public async Task<IActionResult> Index()
         {
-            var theValue = "";
-
-            
+            _service.ResetCache();
             var section = _configuration.GetSection("Endpoints");
-            
 
-            ViewBag.Snek = ConfigurationBinder.GetValue<string>(section, "Snek");
-            ViewBag.Score = ConfigurationBinder.GetValue<string>(section, "Score");
-            ViewBag.Direction = ConfigurationBinder.GetValue<string>(section, "Direction");
+            ViewBag.Snek = ConfigurationBinder
+                .GetValue<string>(section, "Snek");
+
+            ViewBag.Score = ConfigurationBinder
+                .GetValue<string>(section, "Score");
+
+            ViewBag.Direction = ConfigurationBinder
+                .GetValue<string>(section, "Direction");
+
+            ViewBag.Status = ConfigurationBinder
+                .GetValue<string>(section, "Status");
 
             return View();
         }
@@ -62,8 +62,6 @@ namespace MVC_Snek_Attempt.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        #region for api endpoints
         
-        #endregion
     }
 }

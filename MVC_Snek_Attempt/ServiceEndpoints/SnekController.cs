@@ -24,7 +24,7 @@ namespace MVC_Snek_Attempt.ServiceEndpoints
         public async Task<string> SnekEndpoint()
         {
             var grid = _game.UpdateAndGetGrid();
-            
+            Console.WriteLine(grid.Count);
             using (var stream = new MemoryStream())
             {
                 await JsonSerializer.SerializeAsync<List<List<int>>>(stream, grid);
@@ -56,6 +56,18 @@ namespace MVC_Snek_Attempt.ServiceEndpoints
                 {
                     "score",
                     val
+                }
+            };
+        }
+
+        [HttpGet(nameof(GameStatusEndpoint))]
+        public Dictionary<string, bool> GameStatusEndpoint()
+        {
+            return new Dictionary<string, bool>()
+            {
+                {
+                    "GameStatus",
+                    _game.GetGameStatus()
                 }
             };
         }

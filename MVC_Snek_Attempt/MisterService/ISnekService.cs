@@ -7,5 +7,7 @@ namespace MVC_Snek_Attempt.MisterService
         List<int> Triggered();
         void SetDirection(Directions direction);
         Directions GetCurrentDirection();
+        bool GetGameStatus();
+        void ResetCache();
     }
 }

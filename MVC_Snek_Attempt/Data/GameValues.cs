@@ -8,6 +8,10 @@
         public const string score = "score";
         public const string grid = "grid";
         public const string snek = "snek";
+        public const string status = "status";
+
+        //array of cache keys
+        public static readonly string[] CacheKeys;
 
         // integers
         public const int SnekLength = 4;
@@ -27,6 +31,9 @@
         static GameValues()
         {
             DefaultGridValues = GenerateGrid();
+
+            BorderValues = GetBorderValues();
+
             keyKeyValuePairs = new Dictionary<int, int>()
             {
                 {
@@ -60,7 +67,17 @@
                 },
 
             };
-            BorderValues = GetBorderValues();
+
+            CacheKeys = new string[6]
+            {
+                currentDirection,
+                score,
+                snek,
+                grid,
+                apple,
+                status
+            };
+            
         }
         private static List<List<int>> GenerateGrid()
         {

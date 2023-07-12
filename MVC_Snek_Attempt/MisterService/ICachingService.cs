@@ -14,6 +14,8 @@ namespace MVC_Snek_Attempt.MisterService
         int SetApple(int apple);
         int GetGameScore();
         int SetGameScore();
-
+        bool GetGameStatus();
+        bool SetGameStatus(bool gameStatus);
+        void ResetCache();
     }
 }
