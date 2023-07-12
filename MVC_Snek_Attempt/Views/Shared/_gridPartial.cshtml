@@ -1,17 +1,16 @@
 ﻿
-@model List<List<int>>
+@model bool
 
 @using MVC_Snek_Attempt.Data
-
+@if (Model)
+{
     <div class="justify-content-around">
-    @for (int y = 0; y < GameValues.GridLength; y++)
-    {
-        <div class="gameRow">
-            @for (int x = 0; x < GameValues.GridLength; x++)
-            {
-                <div class="gameCol @(Model[y][x] == 1 ? "snek" : "grid")"></div>
-            }
-        </div>
-    }
-</div>
+        <div class="card">Game Over!</div>
+    </div>
+}
+else
+{
+    <div>Game Not Over</div>
+}
+
 

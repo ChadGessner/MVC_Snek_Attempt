@@ -6,6 +6,7 @@
         
         void SetSnekDirectionOnKeyPress(int keyPress);
         int GetScore();
-        
+        bool GetGameStatus();
+        void ResetCache();
     }
 }
