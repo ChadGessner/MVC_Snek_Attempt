@@ -9,10 +9,16 @@
     <div id="snekEndpoint" class="visually-hidden">@ViewBag.Snek</div>
     <div id="directionEndpoint" class="visually-hidden">@ViewBag.Direction</div>
     <div id="scoreEndpoint" class="visually-hidden">@ViewBag.Score</div>
+    <div id="statusEndpoint" class="visually-hidden">@ViewBag.gameStatus</div>
+
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <h4 id="score"></h4>
 </div>
-<div id="grid" ></div>
+
+        @Html.RenderPartialAsync("_gridPartial", false)
+<div id="grid" >
+    
+</div>
 
 @section Scripts {
     <script type="text/javascript">
@@ -21,11 +27,17 @@
         const snekEndpointRouteData = document.getElementById('snekEndpoint').innerHTML;
         const directionEndpointRouteData = document.getElementById('directionEndpoint').innerHTML;
         const scoreEndpointRouteData = document.getElementById('scoreEndpoint').innerHTML;
+        const gameStatusEndpointRouteData = document.getElementById('statusEndpoint').innerHTML;
+
 
         const snekUrl = baseUrl + '/api/Snek/' + snekEndpointRouteData + '/';
         const directionUrl = baseUrl + '/api/Snek/' + directionEndpointRouteData + '/';
         const scoreUrl = baseUrl + '/api/Snek/' + scoreEndpointRouteData + '/';
+        const statusUrl = baseUrl + '/api/Skek/' + gameStatusEndpointRouteData + '/';
+
         const score = document.getElementById('score');
+        
+
         const onKeyPress = (e) => {
             const keyCode = e.keyCode;
             let data;
@@ -42,7 +54,9 @@
             }).then((response) => {
                 
                 return response.json();
-            }).then(json => data = json).catch(err => console.log(err))
+            }).then(json => data = json)
+            .catch(err => console.log(err));
+
             return data;
         }
         document.addEventListener(
@@ -52,9 +66,7 @@
             });
 
         const gameInterval = setInterval((e)=>{ // interval root method
-            console.log(snekUrl)
-            console.log(directionUrl)
-            console.log(scoreUrl)
+            
             getScore();
             snekEndpoint(); // hits both snek and grid endpoint
         }, 200);
@@ -64,7 +76,8 @@
                 const json = res.json();
                 
                 return json;
-            }).then(json => renderGrid(json)).catch(err => console.log(err));
+            }).then(json => renderGrid(json))
+            .catch(err => console.log(err));
             
             return result;
         }
@@ -90,7 +103,6 @@
                         
                     }else{
                         add = 'apple'
-                        
                     }
                     
                     col.classList.add(add);
@@ -99,17 +111,23 @@
                 grid.appendChild(row);
             }
         }
+
+        //const getGameStatus = () => {
+        //    return fetch(statusUrl)
+        //    .then(response => response.json())
+        //    .then(json => {
+        //        console.log(json)
+        //    }).catch(err => console.log(err))
+        //}
+
         const getScore = () => {
             return fetch(scoreUrl)
             .then(response => response.json())
             .then((json) => {
                 
-                score.innerHTML = json[
-                    "score"
-                ]
+                score.innerHTML = json["score"];
                 return json;
             })
-            
         }
     </script>
 }

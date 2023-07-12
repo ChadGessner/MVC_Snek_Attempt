@@ -16,7 +16,7 @@ namespace MVC_Snek_Attempt.MisterService
         {
             _cache = cache;
             _grid = GameValues.DefaultGridValues;
-            Console.WriteLine("The grid service has been initialized");
+            
         }
         public int GetGameScore()
         {
@@ -36,7 +36,7 @@ namespace MVC_Snek_Attempt.MisterService
             int snekHead = snek[snek.Count - 1];
             if (GameValues.BorderValues.Contains(snekHead))
             {
-                Console.WriteLine("Game Over");
+                // Game Over!
                 return new List<List<int>>();
             }
             int apple = GenerateApple(snek);

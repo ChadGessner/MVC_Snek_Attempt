@@ -34,11 +34,11 @@ namespace MVC_Snek_Attempt.MisterService
         }
         public List<int> SnekDirection(List<int> snek, Directions direction)
         {
-            Console.WriteLine($"The snek: {String.Join("", snek)} || The Direction: {direction} ...");
+            
             List<int> movedSnek = Move(snek, direction);
             if (snek[snek.Count - 1] == movedSnek[movedSnek.Count - 1])
             {
-                Console.WriteLine("previous snek: " + snek[snek.Count - 1] + "current snek: " + movedSnek[movedSnek.Count - 1]);
+                
                 return _cache.MutateSnek(snek);
             }
             return _cache.MutateSnek(movedSnek);
@@ -77,9 +77,16 @@ namespace MVC_Snek_Attempt.MisterService
         private List<int> Move(List<int> snek, Directions currentDirection)
         {
             int headIndex = snek.Count() - 1;
-            int headValue = snek[headIndex] += GameValues.DefaultDirections[currentDirection];
-            if (GameValues.BorderValues.Contains(headValue) || snek.Contains(headValue))
+            int headValue = snek[headIndex]; 
+            
+            headValue += GameValues.DefaultDirections[currentDirection];
+
+            bool gameStatus = GameValues.BorderValues.Contains(headValue) || snek.Contains(headValue);
+            _cache.SetGameStatus(gameStatus); // Determines if the game is over
+
+            if (gameStatus)
             {
+                
                 return snek;
             }
             IEnumerable<int> head = new List<int>() { headValue };
@@ -91,6 +98,13 @@ namespace MVC_Snek_Attempt.MisterService
             return snek.Skip(1).Concat(head).ToList();
 
         }
-        
+        public bool GetGameStatus()
+        {
+            return _cache.GetGameStatus();
+        }
+        public void ResetCache()
+        {
+            _cache.ResetCache();
+        }
     }
 }

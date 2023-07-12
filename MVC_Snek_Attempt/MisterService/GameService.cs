@@ -11,6 +11,10 @@ namespace MVC_Snek_Attempt.MisterService
             _gridService = gridService;
             _snekService = snekService;
         }
+        public void ResetCache()
+        {
+            _snekService.ResetCache();
+        }
         public List<List<int>> UpdateAndGetGrid()
         {
             _snekService.Triggered();
@@ -35,7 +39,7 @@ namespace MVC_Snek_Attempt.MisterService
             Directions updatedDirection = (Directions)GameValues.keyKeyValuePairs[keyPress];
             
             Directions currentDirection = _snekService.GetCurrentDirection();
-            Console.WriteLine(String.Format("CurrentDirection: {0}, UpdatedDirection: {1} ??", currentDirection, updatedDirection));
+            
             bool isSameDirection = updatedDirection != currentDirection;
            // return isSameDirection;
             switch (currentDirection)
@@ -62,6 +66,10 @@ namespace MVC_Snek_Attempt.MisterService
         {
 
             return _gridService.GetGameScore();
+        }
+        public bool GetGameStatus()
+        {
+            return _snekService.GetGameStatus();
         }
     }
 }
